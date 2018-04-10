@@ -21,6 +21,11 @@ contract InbestDistribution is Ownable {
   // Number of decimal places for tokens
   uint256 private constant DECIMALFACTOR = 10**uint256(18);
 
+  // Cliff period = 6 months
+  uint256 CLIFF = 180 days;  
+  // Vesting period = 12 months after cliff
+  uint256 VESTING = 365 days; 
+
   // Total of tokens
   uint256 public constant INITIAL_SUPPLY   =    1e6 * DECIMALFACTOR; // 1.000.000 IBST TBD
   // Total of available tokens
@@ -100,12 +105,9 @@ contract InbestDistribution is Ownable {
     require(allocations[_recipient].totalAllocated == 0 && _totalAllocated > 0); // Must be the first and only allocation for this recipient
     require(_recipient != companyWallet); // Receipient of presale allocation can't be company wallet
 
-    uint256 cliff = 180 days;  // Cliff period = 6 months
-    uint256 vesting = 365 days; // Vesting period = 12 months after cliff
-
     // Allocate
     AVAILABLE_PRESALE_SUPPLY = AVAILABLE_PRESALE_SUPPLY.sub(_totalAllocated);
-    allocations[_recipient] = Allocation(uint8(AllocationType.PRESALE), startTime + cliff, startTime + cliff + vesting, _totalAllocated, 0);
+    allocations[_recipient] = Allocation(uint8(AllocationType.PRESALE), startTime + CLIFF, startTime + CLIFF + VESTING, _totalAllocated, 0);
     AVAILABLE_TOTAL_SUPPLY = AVAILABLE_TOTAL_SUPPLY.sub(_totalAllocated);
     LogNewAllocation(_recipient, AllocationType.PRESALE, _totalAllocated, grandTotalAllocated());
   }
