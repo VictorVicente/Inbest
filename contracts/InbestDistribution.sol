@@ -94,6 +94,7 @@ contract InbestDistribution is Ownable {
     */
   function setAllocation (address _recipient, uint256 _totalAllocated) onlyOwnerOrAdmin public {
     require(_recipient != address(0));
+    require(startTime > now); //Allocations are allowed only before starTime
     require(allocations[_recipient].totalAllocated == 0 && _totalAllocated > 0); // Must be the first and only allocation for this recipient
     require(_recipient != companyWallet); // Receipient of presale allocation can't be company wallet
 
