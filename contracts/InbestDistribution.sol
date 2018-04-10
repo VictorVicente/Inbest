@@ -93,7 +93,7 @@ contract InbestDistribution is Ownable {
     * @param _recipient The recipient of the allocation
     * @param _totalAllocated The total amount of IBST tokens available to the receipient (after vesting and cliff)
     */
-  function setAllocation (address _recipient, uint256 _totalAllocated) onlyOwnerOrAdmin public {
+  function setAllocation (address _recipient, uint256 _totalAllocated) public onlyOwnerOrAdmin {
     require(_recipient != address(0));
     require(startTime > now); //Allocations are allowed only before starTime
     require(AVAILABLE_PRESALE_SUPPLY >= _totalAllocated); //Current allocation must be less than remaining presale supply
