@@ -78,6 +78,7 @@ contract InbestDistribution is Ownable {
     startTime = _startTime;
     companyWallet = _companyWallet;
     IBST = new InbestToken();
+    require(AVAILABLE_TOTAL_SUPPLY == IBST.totalSupply()); //To verify that totalSupply is correct
 
     // Allocate Company Supply
     uint tokensToAllocate = AVAILABLE_COMPANY_SUPPLY;
@@ -162,7 +163,7 @@ contract InbestDistribution is Ownable {
   * @return Returns remaining Company allocation
   */
  function companyRemainingAllocation() public view returns (uint256) {
-   return allocations[companyWallet].totalAllocated - allocations[companyWallet].amountClaimed;
+   return allocations[companyWallet].totalAllocated.sub(allocations[companyWallet].amountClaimed);
  }
 
  /**
@@ -170,7 +171,7 @@ contract InbestDistribution is Ownable {
   * @return Returns the amount of IBST allocated
   */
   function grandTotalAllocated() public view returns (uint256) {
-    return INITIAL_SUPPLY - AVAILABLE_TOTAL_SUPPLY;
+    return INITIAL_SUPPLY.sub(AVAILABLE_TOTAL_SUPPLY);
   }
 
   /**
