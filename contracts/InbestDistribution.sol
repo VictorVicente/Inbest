@@ -188,7 +188,7 @@ contract InbestDistribution is Ownable {
      SetAdmin(msg.sender,_admin,_allowed);
   }
 
-  function refundTokens(address _token, address , uint256 _value) onlyOwner {
+  function refundTokens(address _token, address _refund, uint256 _value) public onlyOwner {
     require(_refund != address(0));
     require(_token != address(0));
     require(_token != address(IBST));
