@@ -191,7 +191,7 @@ contract InbestDistribution is Ownable {
     require(_token != address(0));
     require(_token != address(IBST));
     ERC20 token = ERC20(_token);
-    token.transfer(_refund, _value);
+    require(token.transfer(_refund, _value));
     RefundTokens(_token, _refund, _value);
   }
 }
