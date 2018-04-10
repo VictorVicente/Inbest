@@ -64,7 +64,7 @@ contract InbestDistribution is Ownable {
   // Event fired when admins are modified
   event SetAdmin(address _caller, address _admin, bool _allowed);
   // Event fired when refunding tokens mistakenly sent to contract
-  event RefundTokens(address _token, address _refund, uint _value);
+  event RefundTokens(address _token, address _refund, uint256 _value);
 
   /**
     * @dev Constructor function - Set the inbest token address
@@ -81,7 +81,7 @@ contract InbestDistribution is Ownable {
     require(AVAILABLE_TOTAL_SUPPLY == IBST.totalSupply()); //To verify that totalSupply is correct
 
     // Allocate Company Supply
-    uint tokensToAllocate = AVAILABLE_COMPANY_SUPPLY;
+    uint256 tokensToAllocate = AVAILABLE_COMPANY_SUPPLY;
     AVAILABLE_COMPANY_SUPPLY = 0;
     allocations[companyWallet] = Allocation(uint8(AllocationType.COMPANY), 0, 0, tokensToAllocate, 0);
     AVAILABLE_TOTAL_SUPPLY = AVAILABLE_TOTAL_SUPPLY.sub(tokensToAllocate);
@@ -100,8 +100,8 @@ contract InbestDistribution is Ownable {
     require(allocations[_recipient].totalAllocated == 0 && _totalAllocated > 0); // Must be the first and only allocation for this recipient
     require(_recipient != companyWallet); // Receipient of presale allocation can't be company wallet
 
-    uint cliff = 180 days;  // Cliff period = 6 months
-    uint vesting = 365 days; // Vesting period = 12 months after cliff
+    uint256 cliff = 180 days;  // Cliff period = 6 months
+    uint256 vesting = 365 days; // Vesting period = 12 months after cliff
 
     // Allocate
     AVAILABLE_PRESALE_SUPPLY = AVAILABLE_PRESALE_SUPPLY.sub(_totalAllocated);
@@ -144,7 +144,7 @@ contract InbestDistribution is Ownable {
   * @param _recipient The address to transfer tokens for
   * @param _tokensToTransfer The amount of IBST tokens to transfer
   */
- function manualContribution(address _recipient, uint _tokensToTransfer) public onlyOwnerOrAdmin {
+ function manualContribution(address _recipient, uint256 _tokensToTransfer) public onlyOwnerOrAdmin {
    require(_recipient != address(0));
    require(_recipient != companyWallet); // Company can't withdraw tokens for itself
    require(_tokensToTransfer > 0); // The amount must be valid
@@ -186,7 +186,7 @@ contract InbestDistribution is Ownable {
      SetAdmin(msg.sender,_admin,_allowed);
   }
 
-  function refundTokens(address _token, address , uint _value) onlyOwner {
+  function refundTokens(address _token, address , uint256 _value) onlyOwner {
     require(_refund != address(0));
     require(_token != address(0));
     require(_token != address(IBST));
