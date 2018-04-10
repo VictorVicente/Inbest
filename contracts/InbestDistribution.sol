@@ -113,6 +113,7 @@ contract InbestDistribution is Ownable {
    * @param _recipient The address to withdraw tokens for
    */
  function transferTokens (address _recipient) public {
+   require(_recipient != address(0));
    require(now >= startTime); //Tokens can't be transfered until start date
    require(_recipient != companyWallet); // Tokens allocated to COMPANY can't be withdrawn.
    require(now >= allocations[_recipient].endCliff); // Cliff period must be ended
@@ -178,11 +179,14 @@ contract InbestDistribution is Ownable {
    * @param _allowed Status of the admin
    */
   function setAdmin(address _admin, bool _allowed) public onlyOwner {
-      admins[_admin] = _allowed;
-      SetAdmin(msg.sender,_admin,_allowed);
+    require(_admin != address(0));
+    admins[_admin] = _allowed;
+     SetAdmin(msg.sender,_admin,_allowed);
   }
 
-  function refundTokens(address _token, address _refund, uint _value) onlyOwner {
+  function refundTokens(address _token, address , uint _value) onlyOwner {
+    require(_refund != address(0));
+    require(_token != address(0));
     require(_token != address(IBST));
     ERC20 token = ERC20(_token);
     token.transfer(_refund, _value);
