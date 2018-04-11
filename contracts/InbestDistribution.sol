@@ -107,7 +107,7 @@ contract InbestDistribution is Ownable {
 
     // Allocate
     AVAILABLE_PRESALE_SUPPLY = AVAILABLE_PRESALE_SUPPLY.sub(_totalAllocated);
-    allocations[_recipient] = Allocation(uint8(AllocationType.PRESALE), startTime + CLIFF, startTime + CLIFF + VESTING, _totalAllocated, 0);
+    allocations[_recipient] = Allocation(uint8(AllocationType.PRESALE), startTime.add(CLIFF), startTime.add(CLIFF).add(VESTING), _totalAllocated, 0);
     AVAILABLE_TOTAL_SUPPLY = AVAILABLE_TOTAL_SUPPLY.sub(_totalAllocated);
     LogNewAllocation(_recipient, AllocationType.PRESALE, _totalAllocated, grandTotalAllocated());
   }
